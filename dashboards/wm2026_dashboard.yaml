@@ -113,7 +113,7 @@ views:
           | {{ t.col_phase }} | {{ t.col_date }} | {{ t.col_match }} | {{ t.col_status }} |
           |-------|-------|-----------|--------|
           {% for entry in all_fav.list | sort(attribute='m.date') -%}
-          | {{ entry.phase }} | {{ as_datetime(entry.m.date).strftime('%d.%m. %H:%M') }} | {{ flag(entry.m.home.abbr) }} {% if entry.m.home.winner %}**{{ entry.m.home.name }}**{% else %}{{ entry.m.home.name }}{% endif %} {% if entry.m.is_final or entry.m.is_live %}**{{ entry.m.home.score }}:{{ entry.m.away.score }}**{% else %}-{% endif %} {% if entry.m.away.winner %}**{{ entry.m.away.name }}**{% else %}{{ entry.m.away.name }}{% endif %} {{ flag(entry.m.away.abbr) }} | {{ entry.m.status }} |
+          | {{ entry.phase }} | {{ (as_datetime(entry.m.date) | as_local).strftime('%d.%m. %H:%M') }} | {{ flag(entry.m.home.abbr) }} {% if entry.m.home.winner %}**{{ entry.m.home.name }}**{% else %}{{ entry.m.home.name }}{% endif %} {% if entry.m.is_final or entry.m.is_live %}**{{ entry.m.home.score }}:{{ entry.m.away.score }}**{% else %}-{% endif %} {% if entry.m.away.winner %}**{{ entry.m.away.name }}**{% else %}{{ entry.m.away.name }}{% endif %} {{ flag(entry.m.away.abbr) }} | {{ entry.m.status }} |
           {% endfor %}
           {% endif %}
 
@@ -151,7 +151,7 @@ views:
           {% if games | length > 0 %}
           **{{ t.matches }}:**
           {% for m in games -%}
-          - {{ as_datetime(m.date).strftime('%d.%m. %H:%M') }}: {% if m.favorite %}⭐ {% endif -%}
+          - {{ (as_datetime(m.date) | as_local).strftime('%d.%m. %H:%M') }}: {% if m.favorite %}⭐ {% endif -%}
           {{ flag(m.home.abbr) }} {% if m.home.winner %}**{{ m.home.name }}**{% else %}{{ m.home.name }}{% endif %}
           {%- if m.is_final or m.is_live %} **{{ m.home.score }}:{{ m.away.score }}** {% else %} - {% endif -%}
           {% if m.away.winner %}**{{ m.away.name }}**{% else %}{{ m.away.name }}{% endif %} {{ flag(m.away.abbr) }}
@@ -188,7 +188,7 @@ views:
           | {{ t.col_date }} | {{ t.col_match }} | {{ t.col_venue }} |
           |-------|-----------|-----|
           {% for g in games -%}
-          | **{{ as_datetime(g.date).strftime('%d.%m. %H:%M') }}** | {% if g.favorite %}⭐ {% endif -%}
+          | **{{ (as_datetime(g.date) | as_local).strftime('%d.%m. %H:%M') }}** | {% if g.favorite %}⭐ {% endif -%}
           {{ flag(g.home.abbr) }} {% if g.home.winner %}**{{ g.home.name }}**{% else %}{{ g.home.name }}{% endif -%}
           {% if g.is_final or g.is_live %} **{{ g.home.score }}:{{ g.away.score }}**{% endif %} - {% if g.away.winner %}**{{ g.away.name }}**{% else %}{{ g.away.name }}{% endif %} {{ flag(g.away.abbr) }} | {{ g.city }} |
           {% endfor %}
